@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) 
+    {
+          int n=nums.size();
+          vector<int> pre_pro;
+          vector<int> suff_pro(n);
+        
+          pre_pro.push_back(1);
+          for(int i=0; i<n-1; i++)
+          {
+              pre_pro.push_back(pre_pro.back()*nums[i]);
+          }
+        
+          suff_pro[n-1]=1;
+          for(int i=n-2; i>=0; i--)
+          {
+              suff_pro[i]=suff_pro[i+1]*nums[i+1];
+          }
+           
+        
+          vector<int> ans;
+          for(int i=0; i<n; i++)
+          {
+              ans.push_back(pre_pro[i]*suff_pro[i]);
+          }
+        
+          return ans;
+    }
+};

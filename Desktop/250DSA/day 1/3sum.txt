@@ -1,0 +1,43 @@
+class Solution {
+public:
+    void find_triplet(vector<int>& nums, int low, int high, int val1, vector<vector<int>>& ans)
+    {
+         int temp;
+         while(low<high)
+         {
+              temp=nums[low]+nums[high]+val1;
+             
+              if(temp==0)
+              {
+                  ans.push_back(vector<int>{val1, nums[low], nums[high]});
+                  low=upper_bound(nums.begin(), nums.end(), nums[low])-nums.begin();
+                  high--;
+              }
+              
+              else if(temp>0)
+              {
+                  high--;
+              }
+             
+              else
+              {
+                  low++;
+              }
+         }
+    }
+    vector<vector<int>> threeSum(vector<int>& nums) 
+    {
+          sort(nums.begin(), nums.end());
+          int n=nums.size();
+          vector<vector<int>> ans;
+        
+          int i=0;
+          while(i<n)
+          {
+                find_triplet(nums, i+1, n-1,nums[i], ans);
+                i=upper_bound(nums.begin(), nums.end(), nums[i])-nums.begin();
+          }
+        
+          return ans;
+    }
+};

@@ -1,0 +1,64 @@
+class RandomizedCollection {
+public:
+    vector<int> collection;
+    unordered_map<int,unordered_set<int>> mp;
+    int size;
+    RandomizedCollection() 
+    {
+        size=0; 
+    }
+
+    bool insert(int val) 
+    {
+         bool ans=false;
+         collection.push_back(val);
+         if(mp.find(val)==mp.end())
+         {
+             ans=true;
+         }
+        
+         mp[val].insert(size);
+         size++;
+         return ans;
+    }
+    
+    bool remove(int val) 
+    {
+        if(mp.find(val)==mp.end())
+        {
+            return false;
+        }
+        
+        unordered_set<int>::iterator it=mp[val].begin();
+        int idx=*it;
+        mp[val].erase(idx);
+        
+        if(size==1||size==idx+1)
+        {
+            collection.pop_back();
+        }
+        else
+        {
+            int temp=collection.back();
+            swap(collection[size-1], collection[idx]);
+            
+            mp[temp].erase(size-1);
+            collection.pop_back();
+            
+            mp[temp].insert(idx);
+        }
+        
+        size--;
+        if(mp[val].empty())
+        {
+            mp.erase(val);
+        }
+        return true;
+    }
+    
+    int getRandom() 
+    {
+           int idx=rand()%size;
+           return collection[idx];
+    }
+};

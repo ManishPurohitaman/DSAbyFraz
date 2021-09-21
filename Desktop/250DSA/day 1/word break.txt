@@ -1,0 +1,36 @@
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) 
+    {
+        int n=s.size();
+        vector<bool> dp(n+1,0);
+        dp[0]=1;
+        
+        set<string> st;
+        for(string t : wordDict)
+        {
+            st.insert(t);
+        }
+        
+        for(int i=1; i<=n; i++)
+        {
+            int j=i;
+            string temp="";
+            while(j>0)
+            {
+                temp=s[j-1]+temp;
+                if(st.find(temp)!=st.end())
+                {
+                    if(dp[j-1])
+                    {
+                       dp[i]=1;
+                       break;
+                    }
+                }
+                
+                j--;
+            }
+        }
+        return dp[n];
+    }
+};
